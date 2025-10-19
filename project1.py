@@ -9,6 +9,10 @@
 
 import csv
 
+def results_to_txt(filename,text):
+    with open(filename,"w") as file:
+        file.write(text)
+
 def load_superstore_data(csv_file):
 
     data = []
@@ -21,10 +25,12 @@ def load_superstore_data(csv_file):
             new_dict = {}
             for i in range(len(headers)):
                 new_dict[headers[i]] = row[i]
-            
             data.append(new_dict)
 
         return data
+
+
+#Code Calculation #1
 
 def organize_to_corporate(data):
 
@@ -75,7 +81,7 @@ def max_state(num_states):
 
 
 
-
+#Code Calculation #2
 
 def organize_to_consumer(data):
     consumer_data = []
@@ -121,3 +127,34 @@ def most_requested(num_ship_modes):
             continue
     
     print(f"The ship mode {name_highest_mode} is the most requested in the category Furniture ordered by Consumers, with a high number {highest_mode_num}.")
+
+
+#Test Functions
+
+def
+
+
+
+
+
+#Main Function 
+
+def main():
+    data = load_superstore_data("SampleSuperstore.csv")
+
+    #Calculation 1
+
+    corporate_data = organize_to_corporate(data)
+    corporate_tech_data = organize_to_technology(corporate_data)
+    num_states = number_of_states(corporate_tech_data)
+    max_state(num_states)
+
+    #Calculation 2
+
+    consumer_data = organize_to_consumer(data)
+    consumer_furniture_data = organize_to_furniture(consumer_data)
+    num_ship_modes = number_ship_mode(consumer_furniture_data)
+    most_requested(num_ship_modes)
+
+if __name__ == "__main__":
+    main()
