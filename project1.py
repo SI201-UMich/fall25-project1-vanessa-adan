@@ -1,13 +1,15 @@
 # SI 201 Project 1
-# Your name: Vanessa Adan
+# Your name and partners name: Vanessa Adan
 # Your student id: 23627585
 # Your email: vadan@umich.edu
-# Who or what you worked with on this homework (including generative AI like ChatGPT):
+# Who or what you worked with on this project (including generative AI like ChatGPT): Emma Blando
 # If you worked with generative AI also add a statement for how you used it.  
 # e.g.: 
 # Asked Chatgpt hints for debugging and suggesting the general sturcture of the code
 
 import csv
+import os
+import unittest
 
 def results_to_txt(filename,text):
     with open(filename,"w") as file:
@@ -29,6 +31,7 @@ def load_superstore_data(csv_file):
 
         return data
 
+#--------------------------------------------------------------------------------------
 
 #Code Calculation #1
 
@@ -58,10 +61,11 @@ def number_of_states(corporate_tech_data):
     for row in corporate_tech_data:
         state = row['State']
         
-        if state in num_states:
-            num_states[state] += 1
-        else: 
-            num_states[state] = 1
+        if state != "":
+            if state in num_states:
+                num_states[state] += 1
+            else: 
+                num_states[state] = 1
     
     return num_states
 
@@ -77,9 +81,10 @@ def max_state(num_states):
         else: 
             continue
     
-    print (f"The state {highest_name_state} receives the most orders from the Category Technology and Segment Corporate with a max number of {highest_num_state}.")
+    return f"The state {highest_name_state} receives the most orders from the Category Technology and Segment Corporate with a max number of {highest_num_state}."
 
 
+#--------------------------------------------------------------------------------------
 
 #Code Calculation #2
 
@@ -107,10 +112,11 @@ def number_ship_modes(consumer_furniture_data):
 
     for row in consumer_furniture_data:
         ship_mode = row["Ship Mode"]
-        if ship_mode in num_ship_modes:
-            num_ship_modes[ship_mode] += 1
-        else: 
-            num_ship_modes[ship_mode] = 1
+        if ship_mode != "":
+            if ship_mode in num_ship_modes:
+                num_ship_modes[ship_mode] += 1
+            else: 
+                num_ship_modes[ship_mode] = 1
         
     return num_ship_modes
     pass
@@ -126,17 +132,93 @@ def most_requested(num_ship_modes):
         else: 
             continue
     
-    print(f"The ship mode {name_highest_mode} is the most requested in the category Furniture ordered by Consumers, with a high number {highest_mode_num}.")
+    return f"The ship mode {name_highest_mode} is the most requested in the category Furniture ordered by Consumers, with a high number {highest_mode_num}."
 
 
 #Test Functions
+#--------------------------------------------------------------------------------------
 
 
+class TestFunctions(unittest.TestCase):
+
+    def setUp(self):
+        file_path = os.path.join(os.path.dirname(__file__), "test.csv")
+        self.test_case_data = load_superstore_data(file_path) 
+
+    def test_num_states_gen1(self):
+        corporate_data = organize_to_corporate(self.test_case_data)
+        corporate_tech_data = organize_to_technology(corporate_data)
+        num_states = number_of_states(corporate_tech_data)
+
+        self.assertEqual(num_states,{
+            "California": 2,
+            "Pennsylvania": 3,
+            "Ohio": 1,
+            "New York": 1,
+            "Wisconsin": 1})
+        self.assertIsInstance(num_states, dict)
+    
+    def test_num_states_gen2(self):
+        
+        data = [
+            {"State": "Illinois"},
+            {"State": "Illinois"},
+            {"State": "California"},
+            {"State": "Illinois"}
+        ]
+        self.assertEqual(number_of_states(data), {"Illinois": 3, "California": 1})
+
+        pass
+        
+
+    def test_num_states_edge1(self):
+        self.assertEqual(number_of_states([]), {})
+
+    def test_num_states_edge2(self):
+        edge_data_states = [
+            {"State": "California"},
+            {"State": "California"},
+            {"State": ""}
+        ]
+        self.assertEqual(number_of_states(edge_data_states), {"California": 2})
 
 
+    def test_num_ship_modes_gen1(self):
+        consumer_data = organize_to_consumer(self.test_case_data)
+        corporate_furniture_data = organize_to_furniture(consumer_data)
+        num_ship_modes = number_ship_modes(corporate_furniture_data)
 
+        self.assertEqual(num_ship_modes, {
+            "Same Day": 1,
+            "First Class": 1,
+            "Standard Class": 5})
+        self.assertIsInstance(num_ship_modes, dict)
 
+    def test_num_ship_modes_gen2(self):
 
+        gen2_data = [
+            {"Ship Mode": "Same Day"},
+            {"Ship Mode": "First Class"},
+            {"Ship Mode": "Second Class"},
+            {"Ship Mode": "Standard Class"}
+        ]
+        self.assertEqual(number_ship_modes(gen2_data), {"Same Day": 1, "First Class": 1, "Second Class": 1, "Standard Class": 1})
+        pass
+
+    def test_num_ship_modes_edge1(self):
+        #the actual dataset doesn't have any missing values but this is to make sure the functions can still work
+        self.assertEqual(number_ship_modes([]),{})
+
+    def test_num_ship_modes_edge2(self):
+        edge_data_ship_modes = [
+            {"Ship Mode": "Standard Class"},
+            {"Ship Mode": "First Class"},
+            {"Ship Mode": ""}
+
+        ]
+        self.assertEqual(number_ship_modes(edge_data_ship_modes), {"Standard Class": 1, "First Class": 1})
+
+#--------------------------------------------------------------------------------------
 #Main Function 
 
 def main():
@@ -157,4 +239,6 @@ def main():
     most_requested(num_ship_modes)
 
 if __name__ == "__main__":
+    unittest.main()
     main()
+#--------------------------------------------------------------------------------------

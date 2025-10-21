@@ -1,0 +1,16 @@
+Ship Mode,Segment,Country,City,State,Postal Code,Region,Category,Sub-Category,Sales,Quantity,Discount,Profit
+Standard Class,Corporate,United States,San Francisco,California,94122,West,Technology,Accessories,129.45,5,0.0,46.602
+Standard Class,Corporate,United States,Philadelphia,Pennsylvania,19134,East,Technology,Machines,399.54,4,0.7,-559.356
+Standard Class,Corporate,United States,Philadelphia,Pennsylvania,19120,East,Technology,Accessories,10.312,1,0.2,-1.289
+Standard Class,Corporate,United States,Akron,Ohio,44312,East,Technology,Phones,259.896,2,0.4,-56.3108
+Standard Class,Corporate,United States,New York City,New York,10009,East,Technology,Accessories,26.0,2,0.0,11.7
+Standard Class,Corporate,United States,Philadelphia,Pennsylvania,19120,East,Technology,Accessories,151.2,3,0.2,32.13
+Standard Class,Corporate,United States,Los Angeles,California,90045,West,Technology,Phones,196.776,3,0.2,14.7582
+Standard Class,Corporate,United States,Milwaukee,Wisconsin,53209,Central,Technology,Phones,86.97,3,0.0,25.2213
+Same Day,Consumer,United States,Seattle,Washington,98103,West,Furniture,Chairs,167.888,7,0.2,14.6902
+First Class,Consumer,United States,La Porte,Texas,77571,Central,Furniture,Furnishings,14.0,4,0.6,-6.3
+Standard Class,Consumer,United States,Provo,Utah,84604,West,Furniture,Tables,912.75,5,0.0,118.6575
+Standard Class,Consumer,United States,New York City,New York,10035,East,Furniture,Bookcases,191.984,2,0.2,4.7996
+Standard Class,Consumer,United States,Colorado Springs,Colorado,80906,West,Furniture,Bookcases,69.576,4,0.7,-143.7904
+Standard Class,Consumer,United States,Chester,Pennsylvania,19013,East,Furniture,Chairs,853.93,5,0.3,0.0
+Standard Class,Consumer,United States,Seattle,Washington,98115,West,Furniture,Chairs,698.352,3,0.2,52.3764
