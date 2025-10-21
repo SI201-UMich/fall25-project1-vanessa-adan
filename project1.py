@@ -167,7 +167,7 @@ def main():
 
     #Writing to Result File
 
-    with open("output.txt", "w") as f:
+    with open("output.txt", "w") as f
         f.write('Calculation 1: \n')
         f.write(results_states)
         f.write('\n')
