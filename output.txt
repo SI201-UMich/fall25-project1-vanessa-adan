@@ -1,0 +1,4 @@
+Calculation 1: 
+The state California receives the most orders from the Category Technology and Segment Corporate with a max number of 122.
+Calculation 2: 
+The ship mode Standard Class is the most requested in the category Furniture ordered by Consumers, with a high number 647.

@@ -6,10 +6,11 @@
 # If you worked with generative AI also add a statement for how you used it.  
 # e.g.: 
 # Asked Chatgpt hints for debugging and suggesting the general sturcture of the code
+#For this file, I created all the functions and in Emma's repository, she createed hers. 
 
 import csv
 import os
-import unittest
+
 
 def results_to_txt(filename,text):
     with open(filename,"w") as file:
@@ -20,13 +21,19 @@ def load_superstore_data(csv_file):
     data = []
     with open(csv_file, newline='') as csvfile:
         reader = csv.reader(csvfile)
-
         headers = next(reader)
 
         for row in reader: 
             new_dict = {}
             for i in range(len(headers)):
-                new_dict[headers[i]] = row[i]
+                column_name = headers[i]
+                if column_name == "Sales" or column_name == "Profit" or column_name == "Discount":
+                    new_dict[column_name] = float(row[i])
+                elif column_name == "Quantity" or column_name == "Postal Code":  
+                    new_dict[headers[i]] = int(row[i])
+                else:
+                    new_dict[column_name] = row[i]
+
             data.append(new_dict)
 
         return data
@@ -135,15 +142,53 @@ def most_requested(num_ship_modes):
     return f"The ship mode {name_highest_mode} is the most requested in the category Furniture ordered by Consumers, with a high number {highest_mode_num}."
 
 
-#Test Functions
 #--------------------------------------------------------------------------------------
+#Main Function 
 
+def main():
+
+    script_dir = os.path.dirname(__file__)
+    file_path = os.path.join(script_dir, "SampleSuperstore.csv")
+    data = load_superstore_data(file_path)
+
+    #Calculation 1
+
+    corporate_data = organize_to_corporate(data)
+    corporate_tech_data = organize_to_technology(corporate_data)
+    num_states = number_of_states(corporate_tech_data)
+    results_states = max_state(num_states)
+
+    #Calculation 2
+
+    consumer_data = organize_to_consumer(data)
+    consumer_furniture_data = organize_to_furniture(consumer_data)
+    num_ship_modes = number_ship_modes(consumer_furniture_data)
+    results_ship_modes = most_requested(num_ship_modes)
+
+    #Writing to Result File
+
+    with open("output.txt", "w") as f:
+        f.write('Calculation 1: \n')
+        f.write(results_states)
+        f.write('\n')
+        f.write('Calculation 2: \n')
+        f.write(results_ship_modes)
+
+if __name__ == "__main__":
+    main()
+#--------------------------------------------------------------------------------------
+#Test Functions
+
+
+import unittest
 
 class TestFunctions(unittest.TestCase):
 
     def setUp(self):
         file_path = os.path.join(os.path.dirname(__file__), "test.csv")
         self.test_case_data = load_superstore_data(file_path) 
+
+    #Test Case Calculation 1
 
     def test_num_states_gen1(self):
         corporate_data = organize_to_corporate(self.test_case_data)
@@ -182,6 +227,7 @@ class TestFunctions(unittest.TestCase):
         ]
         self.assertEqual(number_of_states(edge_data_states), {"California": 2})
 
+    #Test Case Calculation 2
 
     def test_num_ship_modes_gen1(self):
         consumer_data = organize_to_consumer(self.test_case_data)
@@ -218,27 +264,5 @@ class TestFunctions(unittest.TestCase):
         ]
         self.assertEqual(number_ship_modes(edge_data_ship_modes), {"Standard Class": 1, "First Class": 1})
 
-#--------------------------------------------------------------------------------------
-#Main Function 
-
-def main():
-    data = load_superstore_data("SampleSuperstore.csv")
-
-    #Calculation 1
-
-    corporate_data = organize_to_corporate(data)
-    corporate_tech_data = organize_to_technology(corporate_data)
-    num_states = number_of_states(corporate_tech_data)
-    max_state(num_states)
-
-    #Calculation 2
-
-    consumer_data = organize_to_consumer(data)
-    consumer_furniture_data = organize_to_furniture(consumer_data)
-    num_ship_modes = number_ship_modes(consumer_furniture_data)
-    most_requested(num_ship_modes)
-
 if __name__ == "__main__":
     unittest.main()
-    main()
-#--------------------------------------------------------------------------------------
